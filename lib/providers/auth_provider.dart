@@ -13,13 +13,13 @@ class AuthProvider with ChangeNotifier {
     fetchAuthentication();
   }
 
-  List<Users> userlist = [];
+  List<Users> userlist = [Users(email: "", fname: "", lname: "")];
 
   Stream<User?> get userStream => uStream;
 
   List<Users> get user => userlist;
 
-  void addUser(Users user) async {
+  Future<void> addUser(Users user) async {
     await authService.addUser(user.toJson(user));
     notifyListeners();
   }

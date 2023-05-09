@@ -50,17 +50,17 @@ class _SignupPageState extends State<SignupPage> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () async {
+          Users user = Users(
+              email: emailController.text,
+              fname: fnameController.text,
+              lname: lnameController.text);
+          await context.read<AuthProvider>().addUser(user);
           await context.read<AuthProvider>().signUp(
               // fnameController.text,
               // lnameController.text,
               emailController.text,
               passwordController.text);
-          Users user = Users(
-              email: emailController.text,
-              fname: fnameController.text,
-              lname: lnameController.text);
-          context.read<AuthProvider>().addUser(user);
-          if (context.mounted) Navigator.pop(context);
+          if (context.mounted) Navigator.of(context).pop();
         },
         child: const Text('Sign up', style: TextStyle(color: Colors.white)),
       ),
