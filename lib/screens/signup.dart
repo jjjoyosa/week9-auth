@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:week9_authentication/models/auth_model.dart';
 import '../providers/auth_provider.dart';
 
 class SignupPage extends StatefulWidget {
@@ -13,6 +14,22 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController fnameController = TextEditingController();
+    TextEditingController lnameController = TextEditingController();
+
+    final fname = TextField(
+      controller: fnameController,
+      decoration: const InputDecoration(
+        hintText: "First Name",
+      ),
+    );
+
+    final lname = TextField(
+      controller: lnameController,
+      decoration: const InputDecoration(
+        hintText: "Last Name",
+      ),
+    );
 
     final email = TextField(
       controller: emailController,
@@ -33,7 +50,16 @@ class _SignupPageState extends State<SignupPage> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () async {
-    
+          await context.read<AuthProvider>().signUp(
+              // fnameController.text,
+              // lnameController.text,
+              emailController.text,
+              passwordController.text);
+          Users user = Users(
+              email: emailController.text,
+              fname: fnameController.text,
+              lname: lnameController.text);
+          context.read<AuthProvider>().addUser(user);
           if (context.mounted) Navigator.pop(context);
         },
         child: const Text('Sign up', style: TextStyle(color: Colors.white)),
@@ -62,6 +88,8 @@ class _SignupPageState extends State<SignupPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 25),
             ),
+            fname,
+            lname,
             email,
             password,
             SignupButton,
